@@ -1,26 +1,26 @@
 from PIL import Image, ImageEnhance, ImageOps
-import os
 
+def ribos(sk):
+    if sk > 255:
+        return 255
+    if sk < 0:
+        return 0
+    return sk
 
-# image = ImageOps.contain(image, (2048,2048))
-
-def optimize_images(folder, height):
-    logo = Image.open('logo_cropped.png')
-    # os.chdir(folder)
-    try:
-        os.mkdir(f"{folder}\optimized")
-    except:
-        print("Toks katalogas jau yra")
-    files = os.listdir(folder)
-    for file in files:
-        if file.endswith((".jpg", '.png')):
-            pic = Image.open(f"{folder}\{file}")
-            # pic = ImageOps.contain(pic, (height, height))
-            pic = pic.resize((round(pic.size[0] / pic.size[1] * height), height))
-            pic.paste(logo, (pic.size[0] - logo.size[0], pic.size[1] - logo.size[1], pic.size[0], pic.size[1]), logo)
-            pic.save(f"{folder}\optimized\{file}")
-
+def adjust_colors(picture, r: int, g: int, b: int):
+    im = Image.open(picture)
+    data = im.getdata()
+    new_data = []
+    for pixel in data:
+        red = ribos(pixel[0] + r)
+        green = ribos(pixel[1] + g)
+        blue = ribos(pixel[2] + b)
+        new_data.append((red, green, blue))
+    im.putdata(new_data)
+    im.show()
 
 
 
-optimize_images(r"C:\Users\donor\Desktop\nuotraukos", 1000)
+# adjust_colors("dog.jpg", 50, 0, -50)
+
+adjust_colors("Porsche Taycan.jpg", -150, -250, -150)
