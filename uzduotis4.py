@@ -1,4 +1,4 @@
-from PIL import Image, ImageEnhance, ImageOps
+from PIL import Image
 
 def ribos(sk):
     if sk > 255:
